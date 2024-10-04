@@ -1,0 +1,1 @@
+# faithcopilot-chat-widget
