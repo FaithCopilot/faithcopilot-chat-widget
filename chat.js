@@ -51,6 +51,7 @@ document.addEventListener('DOMContentLoaded',function(){
 
     #chatbot .chatbot-header h3 {
         font-size: large;
+        margin-left: 8px;
     }
 
     #close-button {
@@ -111,6 +112,27 @@ document.addEventListener('DOMContentLoaded',function(){
         transform: translateY(0);
     }
 
+    #chatbot-loader {
+        height: 0.4em;
+        width: 100%;
+        background: linear-gradient(90deg, var(--secondary-color) 25%, var(--primary-color) 50%, var(--secondary-color) 75%);
+        background-size: 230% 100%;
+        animation: gradientAnimation 3s ease infinite;
+
+    }
+
+    @keyframes gradientAnimation {
+        0% {
+            background-position: 0% 50%;
+        }
+        50% {
+            background-position: 100% 50%;
+        }
+        100% {
+            background-position: 0% 50%;
+        }
+    }
+
     .message {
         width: 95%;
         margin: 5px 0;
@@ -135,6 +157,10 @@ document.addEventListener('DOMContentLoaded',function(){
 
     #user-input:focus {
         outline: none;
+    }
+
+    .hidden {
+        display: none;
     }
 
     @media screen and (max-width: 768px) {
@@ -194,6 +220,10 @@ document.addEventListener('DOMContentLoaded',function(){
     defaultMessage.textContent = DEFAULT_MESSAGE;
     chatbotMessages.appendChild(defaultMessage);
 
+    const chatbotLoader = document.createElement('div');
+    chatbotLoader.classList.add('hidden');
+    chatbotLoader.id = 'chatbot-loader';
+
     const userInput = document.createElement('input');
     userInput.type = 'text';
     userInput.id = 'user-input';
@@ -205,6 +235,7 @@ document.addEventListener('DOMContentLoaded',function(){
 
     chatbot.appendChild(chatbotHeader);
     chatbot.appendChild(chatbotMessages);
+    chatbot.appendChild(chatbotLoader);
     chatbot.appendChild(userInput);
     chatbot.appendChild(sendButton);
 
@@ -257,6 +288,7 @@ document.addEventListener('DOMContentLoaded',function(){
         if (event.key === 'Enter') {
             event.preventDefault();
             sendMessage();
+            chatbotLoader.classList.toggle('hidden');
         }
     });
 
@@ -324,9 +356,7 @@ document.addEventListener('DOMContentLoaded',function(){
 
                         const chunk = textDecoder.decode(value, { stream: true });
                         accumulatedResponse += chunk;
-
                         processChunk(chunk);
-
                         readStream();
                     }).catch(error => {
                         console.error('Error reading the stream:', error);
@@ -347,6 +377,7 @@ document.addEventListener('DOMContentLoaded',function(){
                                         const text = jsonChunk.choices[0].delta.content;
 
                                         if ( document.createNewMessage === true ) {
+                                            chatbotLoader.classList.toggle('hidden');
                                             appendMessage('assistant', text);
                                             document.createNewMessage = false;
                                         } else {
