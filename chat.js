@@ -35,17 +35,22 @@ document.addEventListener('DOMContentLoaded',function(){
         position: fixed;
         bottom: 0;
         right: 20px;
-        width: 300px;
-        height: 400px;
+        width: 400px;
+        height: 500px;
         background: var(--background-color);
         border: 1px solid var(--border-color);
         box-shadow: 0 0 10px var(--border-color);
-        border-radius: 5px;
+        border-radius: 24px;
+        overflow: hidden;
         display: flex;
         flex-direction: column;
         transition: transform 0.3s ease;
         transform: translateY(100%);
         z-index: 1001;
+    }
+
+    #chatbot .chatbot-header h3 {
+        font-size: large;
     }
 
     #close-button {
@@ -55,11 +60,14 @@ document.addEventListener('DOMContentLoaded',function(){
     }
 
     #send-button {
+        width: 95%;
         background: var(--primary-color);
         color: var(--user-text-color);
         cursor: pointer;
         padding: 10px;
         border: none;
+        margin: 8px auto 8px auto;
+        border-radius: 12px;
     }
 
     .chatbot-header {
@@ -77,6 +85,8 @@ document.addEventListener('DOMContentLoaded',function(){
         overflow-y: auto;
         flex-grow: 1;
         border-bottom: 1px solid var(--border-color);
+        border-top-left-radius: 12px;
+        border-top-right-radius: 12px;
     }
 
     .chatbot-toggle {
@@ -102,6 +112,7 @@ document.addEventListener('DOMContentLoaded',function(){
     }
 
     .message {
+        width: 95%;
         margin: 5px 0;
         padding: 10px;
         border-radius: 5px;
@@ -113,12 +124,17 @@ document.addEventListener('DOMContentLoaded',function(){
         background-color: var(--primary-color);
         color: var(--user-text-color);
         text-align: right;
+        margin-left: 1em;
     }
 
     #user-input {
         border: none;
         padding: 5%;
         background-color: var(--background-color);
+    }
+
+    #user-input:focus {
+        outline: none;
     }
 
     @media screen and (max-width: 768px) {
