@@ -35,3 +35,9 @@ Adjust the following variables to personalize the chatbot's look:
 - `ASSISTANT_TEXT_COLOR`: Color for the assistant’s text.
 - `USER_TEXT_COLOR`: Color for user input.
 - `BORDER_COLOR`: Border color of the chat window.
+
+You can also add the dark mode version for each of these variables but it's optional.
+
+
+## Dark Mode Compatibility
+We added dark mode variables along with an example of how to switch to dark mode. Keep in mind that depending on your platform you might need to tweak the inline CSS code that appears in the `chat.js` file for it to work properly.
