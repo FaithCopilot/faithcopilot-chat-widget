@@ -14,6 +14,12 @@ document.addEventListener('DOMContentLoaded',function(){
     ASSISTANT_TEXT_COLOR="#000";
     USER_TEXT_COLOR="#FFF";
     BORDER_COLOR="#CCC";
+    PRIMARY_COLOR_DARK="#080a2d";
+    SECONDARY_COLOR_DARK="#3730a3";
+    BACKGROUND_COLOR_DARK="#6b5bb8";
+    ASSISTANT_TEXT_COLOR_DARK="#e6e7eb";
+    USER_TEXT_COLOR_DARK="#e6e7eb";
+    BORDER_COLOR_DARK="#080a2d";
 
     const css = `
     :root {
@@ -23,6 +29,15 @@ document.addEventListener('DOMContentLoaded',function(){
         --assistant-text-color: ${ASSISTANT_TEXT_COLOR};
         --user-text-color: ${USER_TEXT_COLOR};
         --border-color: ${BORDER_COLOR};
+    }
+
+    .dark {
+        --primary-color: ${PRIMARY_COLOR_DARK};
+        --secondary-color: ${SECONDARY_COLOR_DARK};
+        --background-color: ${BACKGROUND_COLOR_DARK};
+        --assistant-text-color: ${ASSISTANT_TEXT_COLOR_DARK};
+        --user-text-color: ${USER_TEXT_COLOR_DARK};
+        --border-color: ${BORDER_COLOR_DARK};
     }
 
     body {
