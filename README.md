@@ -26,7 +26,7 @@ Configure these variables with your Faith Copilot Endpoint data.
 
 <br>
 
-## Customization
+## Custom Colors
 Adjust the following variables to personalize the chatbot's look:
 
 - `PRIMARY_COLOR`: Main UI color (e.g., buttons).
@@ -38,6 +38,12 @@ Adjust the following variables to personalize the chatbot's look:
 
 You can also add the dark mode version for each of these variables but it's optional.
 
+<br>
 
 ## Dark Mode Compatibility
 We added dark mode variables along with an example of how to switch to dark mode. Keep in mind that depending on your platform you might need to tweak the inline CSS code that appears in the `chat.js` file for it to work properly.
+
+<br>
+
+## RTL support
+Switch `RTL=true` for automatic Right-to-Left language support.

@@ -20,6 +20,7 @@ document.addEventListener('DOMContentLoaded',function(){
     ASSISTANT_TEXT_COLOR_DARK="#e6e7eb";
     USER_TEXT_COLOR_DARK="#e6e7eb";
     BORDER_COLOR_DARK="#080a2d";
+    RTL=true;
 
     const css = `
     :root {
@@ -62,6 +63,11 @@ document.addEventListener('DOMContentLoaded',function(){
         transition: transform 0.3s ease;
         transform: translateY(100%);
         z-index: 1001;
+    }
+
+    .chatbot.rtl {
+        right: unset;
+        left: 20px;
     }
 
     #chatbot .chatbot-header h3 {
@@ -117,6 +123,11 @@ document.addEventListener('DOMContentLoaded',function(){
         z-index: 1000;
     }
 
+    .chatbot-toggle.rtl {
+        right: unset;
+        left: 20px;
+    }
+
     .chatbot-closed {
         display: flex;
         transform: translateY(100%);
@@ -149,6 +160,7 @@ document.addEventListener('DOMContentLoaded',function(){
     }
 
     .message {
+        text-align: left;
         width: 95%;
         margin: 5px 0;
         padding: 10px;
@@ -157,11 +169,23 @@ document.addEventListener('DOMContentLoaded',function(){
         color: var(--assistant-text-color);
     }
 
+    .message.rtl {
+        text-align: right;
+        margin-left: 1em;
+        margin-right: unset;
+    }
+
     .message.user {
         background-color: var(--primary-color);
         color: var(--user-text-color);
         text-align: right;
         margin-left: 1em;
+    }
+
+    .message.user.rtl {
+        text-align: left;
+        margin-left: unset;
+        margin-right: 1em;
     }
 
     #user-input {
@@ -183,6 +207,7 @@ document.addEventListener('DOMContentLoaded',function(){
             width: 100%;
             height: 100%;
             bottom: 0;
+            left: 0;
             right: 0;
             border-radius: 0;
         }
@@ -223,8 +248,13 @@ document.addEventListener('DOMContentLoaded',function(){
     const closeButton = document.createElement('span');
     closeButton.id = 'close-button';
     closeButton.innerHTML = '&times;';
-    chatbotHeader.appendChild(chatbotTitle);
-    chatbotHeader.appendChild(closeButton);
+    if ( RTL === false ) {
+        chatbotHeader.appendChild(chatbotTitle);
+        chatbotHeader.appendChild(closeButton);
+    } else {
+        chatbotHeader.appendChild(closeButton);
+        chatbotHeader.appendChild(chatbotTitle);
+    }
 
     const chatbotMessages = document.createElement('div');
     chatbotMessages.id = 'chatbot-messages';
@@ -233,6 +263,9 @@ document.addEventListener('DOMContentLoaded',function(){
     const defaultMessage = document.createElement('div');
     defaultMessage.classList.add('message');
     defaultMessage.textContent = DEFAULT_MESSAGE;
+    if ( RTL === true ) {
+        defaultMessage.classList.add('rtl');
+    }
     chatbotMessages.appendChild(defaultMessage);
 
     const chatbotLoader = document.createElement('div');
@@ -257,6 +290,11 @@ document.addEventListener('DOMContentLoaded',function(){
     const chatbotToggle = document.createElement('div');
     chatbotToggle.id = 'chatbot-toggle';
     chatbotToggle.classList.add('chatbot-toggle');
+
+    if ( RTL === true ) {
+        chatbot.classList.add('rtl');
+        chatbotToggle.classList.add('rtl');
+    }
 
     chatbotToggle.innerHTML = `
         <svg width="2em" height="2em" viewBox="0 0 31.099 31.099" xmlns="http://www.w3.org/2000/svg" xml:space="preserve" style="display: block;">
@@ -303,12 +341,12 @@ document.addEventListener('DOMContentLoaded',function(){
         if (event.key === 'Enter') {
             event.preventDefault();
             sendMessage();
-            chatbotLoader.classList.toggle('hidden');
         }
     });
 
 
     function sendMessage() {
+        chatbotLoader.classList.remove('hidden');
         const message = userInput.value.trim();
         if (message) {
             appendMessage('user', message);
@@ -366,11 +404,13 @@ document.addEventListener('DOMContentLoaded',function(){
                         if (done) {
                             var lastAssistantMessage = document.getElementById('chatbot-messages').lastChild.innerText;
                             document.messageHistory.push({ role: 'assistant', content: lastAssistantMessage });
+                            scrollToBottomOfMessage();
                             return;
                         }
 
                         const chunk = textDecoder.decode(value, { stream: true });
                         accumulatedResponse += chunk;
+                        chatbotLoader.classList.add('hidden');
                         processChunk(chunk);
                         readStream();
                     }).catch(error => {
@@ -392,7 +432,6 @@ document.addEventListener('DOMContentLoaded',function(){
                                         const text = jsonChunk.choices[0].delta.content;
 
                                         if ( document.createNewMessage === true ) {
-                                            chatbotLoader.classList.toggle('hidden');
                                             appendMessage('assistant', text);
                                             document.createNewMessage = false;
                                         } else {
@@ -425,6 +464,9 @@ document.addEventListener('DOMContentLoaded',function(){
     function appendMessage(sender, text) {
         const messageElement = document.createElement('div');
         messageElement.classList.add('message', sender);
+        if ( RTL === true ) {
+            messageElement.classList.add('rtl');
+        }
         messageElement.textContent = text;
         messagesContainer.appendChild(messageElement);
         messagesContainer.scrollTop = messagesContainer.scrollHeight;
